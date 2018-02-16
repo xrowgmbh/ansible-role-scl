@@ -1,0 +1,13 @@
+---
+
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Check for SCL repo
+  stat:
+    path: /etc/yum.repos.d/rhscl-centos-release-scl-epel-7.repo
+  register: scl
+  
+- name: Add SCL repo
+  shell: yum-config-manager --add-repo=https://copr.fedoraproject.org/coprs/rhscl/centos-release-scl/repo/epel-7/rhscl-centos-release-scl-epel-7.repo
+  when: scl.stat.exists
