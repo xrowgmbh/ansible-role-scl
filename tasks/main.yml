@@ -3,14 +3,13 @@
 - name: Include OS-specific variables.
   include_vars: "{{ ansible_os_family }}.yml"
 
-- name: Check for SCL repo
-  stat:
-    path: /etc/yum.repos.d/rhscl-centos-release-scl-epel-7.repo
-  register: scl
-  
-- name: Add SCL repo
-  shell: yum-config-manager --add-repo=https://copr.fedoraproject.org/coprs/rhscl/centos-release-scl/repo/epel-7/rhscl-centos-release-scl-epel-7.repo
-  when: scl.stat.exists
+- name: Install centos-release-scl-rh (CentOS only)
+  package:
+    name: centos-release-scl-rh
+    state: present
+    enablerepo: extras
+  when: ansible_distribution == 'CentOS'
 
-- name: Install Package Centos Release scl.
-  yum: name=centos-release-scl state=present enablerepo=extras
+- name: Enables SCL (RHEL only)
+  command: "yum-config-manager --enable rhel-server-rhscl-{{ ansible_distribution_major_version }}-rpms"
+  when: ansible_distribution == 'Red Hat Enterprise Linux'
