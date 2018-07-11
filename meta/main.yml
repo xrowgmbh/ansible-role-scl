@@ -1,0 +1,14 @@
+---
+galaxy_info:
+  author: 'Björn Dieding'
+  description: 'Installs SCL repository and enables it globally'
+  license: Apache License 2.0
+  min_ansible_version: '2.3'
+  platforms:
+    - name: EL
+      versions:
+        - 7
+  galaxy_tags:
+    - system
+    - basic
+    - updates
